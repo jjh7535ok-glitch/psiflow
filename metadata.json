@@ -1,0 +1,6 @@
+{
+  "name": "PSI Flow - 다거점 생산·판매·재고 관리 시스템",
+  "description": "단일 공장 생산과 울산·광주 출고센터 분기 공급망에 대응하는 일자별 엑셀형 매트릭스 PSI 및 추이 분석 대시보드",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

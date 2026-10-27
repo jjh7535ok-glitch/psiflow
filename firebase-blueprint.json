@@ -1,0 +1,128 @@
+{
+  "entities": {
+    "Workspace": {
+      "title": "Workspace",
+      "description": "Enterprise PSI Flow live workspace state including products master, daily dataStore, and master data",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Workspace identifier (e.g. main)"
+        },
+        "products": {
+          "type": "array",
+          "description": "Product master items list"
+        },
+        "dataStore": {
+          "type": "object",
+          "description": "Daily PSI records by product and date"
+        },
+        "hubs": {
+          "type": "array",
+          "description": "Hub master items"
+        },
+        "customers": {
+          "type": "array",
+          "description": "Customer master items"
+        },
+        "categories": {
+          "type": "array",
+          "description": "Category master items"
+        },
+        "lines": {
+          "type": "array",
+          "description": "Production lines master"
+        },
+        "shiftRules": {
+          "type": "object",
+          "description": "Shift and working hour rules"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO timestamp of last update"
+        },
+        "updatedBy": {
+          "type": "string",
+          "description": "Email of user who updated the workspace"
+        }
+      },
+      "required": ["id", "products", "dataStore", "updatedAt", "updatedBy"]
+    },
+    "Revision": {
+      "title": "Revision",
+      "description": "Immutable baseline snapshot of committed PSI plan for a specific week and version",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Revision identifier (e.g. 2026-W43-v1)"
+        },
+        "weekId": {
+          "type": "string",
+          "description": "ISO week identifier (e.g. 2026-W43)"
+        },
+        "versionNumber": {
+          "type": "number",
+          "description": "Sequential revision version number"
+        },
+        "title": {
+          "type": "string",
+          "description": "Human-readable release title"
+        },
+        "memo": {
+          "type": "string",
+          "description": "Release notes / reason for change"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when this baseline was published"
+        },
+        "createdBy": {
+          "type": "string",
+          "description": "Owner email who published the baseline"
+        },
+        "products": {
+          "type": "array",
+          "description": "Frozen product master items list"
+        },
+        "dataStore": {
+          "type": "object",
+          "description": "Frozen daily PSI records by product and date"
+        },
+        "hubs": {
+          "type": "array",
+          "description": "Frozen hub master items"
+        },
+        "customers": {
+          "type": "array",
+          "description": "Frozen customer master items"
+        },
+        "categories": {
+          "type": "array",
+          "description": "Frozen category master items"
+        },
+        "lines": {
+          "type": "array",
+          "description": "Frozen production lines master"
+        },
+        "shiftRules": {
+          "type": "object",
+          "description": "Frozen shift rules"
+        }
+      },
+      "required": ["id", "weekId", "versionNumber", "createdAt", "createdBy", "products", "dataStore"]
+    }
+  },
+  "firestore": {
+    "/workspaces/{workspaceId}": {
+      "schema": "Workspace",
+      "description": "Shared live workspace storage for PSI supply chain master and plan records"
+    },
+    "/revisions/{revisionId}": {
+      "schema": "Revision",
+      "description": "Immutable published revisions for frozen baseline planning"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isValidWorkspace(data) {
+      return data.id is string
+        && data.id.size() > 0
+        && data.id.size() <= 64
+        && data.products is list
+        && data.dataStore is map
+        && data.updatedAt is string;
+    }
+
+    function isValidRevision(data) {
+      return data.id is string
+        && data.id.size() > 0
+        && data.id.size() <= 64
+        && data.weekId is string
+        && data.versionNumber is number
+        && data.products is list
+        && data.dataStore is map
+        && data.createdAt is string
+        && data.createdBy is string;
+    }
+
+    match /workspaces/{workspaceId} {
+      allow read: if true;
+      allow write: if isValidWorkspace(request.resource.data);
+    }
+
+    match /revisions/{revisionId} {
+      allow read: if true;
+      // Allow creation of valid baseline revision snapshot
+      allow create: if isValidRevision(request.resource.data);
+      // Revisions are immutable once published to preserve single source of truth baseline
+      allow update: if false;
+      allow delete: if false;
+    }
+  }
+}
